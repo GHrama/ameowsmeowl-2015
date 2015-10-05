@@ -168,18 +168,18 @@ public class MessageServer implements Runnable {
 	public void read(SelectionKey key) throws IOException {
 
 		
-		System.out.println("in read 1"+readBuffer.array());
+		
 		SocketChannel socketChannel = (SocketChannel) key.channel();
-		System.out.println("in read 2"+readBuffer.array());
+		
 		// Clear out our read buffer so it's ready for new data
 		this.readBuffer.clear();
-		System.out.println("in read 3"+readBuffer.array());
+		
 
 		// Attempt to read off the channel
 		int numRead;
 		try {
 			numRead = socketChannel.read(this.readBuffer);
-			System.out.println("in read 4"+readBuffer.array());
+			
 			
 		} catch (IOException e) {
 			// The remote forcibly closed the connection, cancel
@@ -198,7 +198,7 @@ public class MessageServer implements Runnable {
 		}
 
 		// Hand the data off to the Message Worker
-		System.out.println("in read 5"+readBuffer.array());
+		
 		messageWorkerPool.execute(new MessageWorker(this.dbConnectionPool,this, socketChannel,this.readBuffer.array(), numRead, 0));
 
 	}
@@ -218,7 +218,7 @@ public class MessageServer implements Runnable {
 					// ... or the socket's buffer fills up
 					break;
 				}
-				System.out.println("in write 6"+buf.toString());
+				
 				queue.remove(0);
 			}
 

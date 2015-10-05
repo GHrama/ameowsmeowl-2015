@@ -13,7 +13,7 @@ import ch.ethz.rama.asl.common.RequestType;
 import ch.ethz.rama.asl.database.DatabaseAPI;
 
 // message worker threads
-// adapted from http://rox-xmlrpc.sourceforge.net/niotut/
+// adapted from http://rox;xmlrpc.sourceforge.net/niotut/
 import org.postgresql.ds.PGPoolingDataSource;
 public class MessageWorker implements Runnable {
 	MessageServer server;
@@ -56,10 +56,10 @@ public class MessageWorker implements Runnable {
 			String queueName = commandparameters.get(MapParameters.QUEUE_NAME);
 			//beginDBResponseTime = System.currentTimeMillis();
 			connection = dbsource.getConnection();
-			//dbWaitTime = System.currentTimeMillis() - beginDBResponseTime;
+			//dbWaitTime = System.currentTimeMillis() ; beginDBResponseTime;
 			int queueID = dbapi.addNewQueue(connection, queueName);
 			connection.close();
-			response = String.format("%s-%d-%s", RequestType.ADD_QUEUE,
+			response = String.format("%s;%d;%s", RequestType.ADD_QUEUE,
 					queueID, end);
 			break;
 		case "ADDCLIENT" :
@@ -67,7 +67,7 @@ public class MessageWorker implements Runnable {
 			connection = dbsource.getConnection();
 			int client_id = dbapi.addClient(connection, clientname);
 			connection.close();
-			response = String.format("%s-%d-%s", RequestType.ADD_CLIENT,
+			response = String.format("%s;%d;%s", RequestType.ADD_CLIENT,
 					client_id, end);
 			break;
 		case "DELETEQUEUE":
@@ -75,7 +75,7 @@ public class MessageWorker implements Runnable {
 			connection = dbsource.getConnection();
 			int success = dbapi.deleteQueue(connection, queue_id);
 			connection.close();
-			response = String.format("%s-%d-%s", RequestType.DELETE_QUEUE,
+			response = String.format("%s;%d;%s", RequestType.DELETE_QUEUE,
 					success, end);
 			break;
 		case "SENDMSG" :
@@ -86,7 +86,7 @@ public class MessageWorker implements Runnable {
 			connection = dbsource.getConnection();
 			int msg_id = dbapi.addMesssage(connection, queueid, sender_id, receiver_id, payload);
 			connection.close();
-			response = String.format("%s-%d-%s", RequestType.SEND_MESSAGE,
+			response = String.format("%s;%d;%s", RequestType.SEND_MESSAGE,
 					msg_id, end);
 			break;
 		case "RETVLATESTMSG":
@@ -96,7 +96,7 @@ public class MessageWorker implements Runnable {
 			connection = dbsource.getConnection();
 			String msg = dbapi.getLatestMessage(connection, qid, receiverid);
 			connection.close();
-			response = String.format("%s-%s-%s", RequestType.RETV_LATEST_MESSAGE,
+			response = String.format("%s;%s;%s", RequestType.RETV_LATEST_MESSAGE,
 					msg, end);
 			break;
 		case "RETVLATESTMSGDELETE" :
@@ -105,7 +105,7 @@ public class MessageWorker implements Runnable {
 			connection = dbsource.getConnection();
 			String m = dbapi.getLatestMessageDelete(connection, qd, receiveid);
 			connection.close();
-			response = String.format("%s-%s-%s", RequestType.RETV_LATEST_MESSAGE,
+			response = String.format("%s;%s;%s", RequestType.RETV_LATEST_MESSAGE,
 					m, end);
 			break;
 		case "RETVSENDERMSG" :
@@ -115,7 +115,7 @@ public class MessageWorker implements Runnable {
 			connection = dbsource.getConnection();
 			String t = dbapi.latestMessageFromSender(connection, q, senderid, receivid);
 			connection.close();
-			response = String.format("%s-%s-%s", RequestType.RETV_SENDER_MESSAGE,
+			response = String.format("%s;%s;%s", RequestType.RETV_SENDER_MESSAGE,
 					t, end);
 			break;
 		case "RETVSENDERMSGDELETE" :
@@ -125,7 +125,7 @@ public class MessageWorker implements Runnable {
 			connection = dbsource.getConnection();
 			String th = dbapi.latestMessageFromSenderDelete(connection, qt, sendeid, receiid);
 			connection.close();
-			response = String.format("%s-%s-%s", RequestType.RETV_SENDER_MESSAGE_DELETE,
+			response = String.format("%s;%s;%s", RequestType.RETV_SENDER_MESSAGE_DELETE,
 					th, end);
 		break;
 		case "QUEUESWITHMSG":
@@ -140,7 +140,7 @@ public class MessageWorker implements Runnable {
 				prefix = "&";
 				queueStrBuilder.append(i);
 			}
-			response = String.format("%s-%s-%s", RequestType.QUEUES_WITH_MESSAGE,
+			response = String.format("%s;%s;%s", RequestType.QUEUES_WITH_MESSAGE,
 					queueStrBuilder, end);
 			break;
 			default:
@@ -150,7 +150,7 @@ public class MessageWorker implements Runnable {
 			}
 		}catch(SQLException e){
 			String expDescription = e.getMessage();
-			response = String.format("%s-%s-%s-%s", "EXCEPTION", request,
+			response = String.format("%s;%s;%s;%s", "EXCEPTION", request,
 					expDescription, end);
 			e.printStackTrace();
 			

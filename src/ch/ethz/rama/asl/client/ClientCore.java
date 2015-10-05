@@ -107,18 +107,7 @@ public class ClientCore {
 		}
 	}
 
-	/**
-	 * All communication to the middleware happens through this method. The
-	 * request is sent as a byte array. The response received from the
-	 * middleware is handed off to the response handler.
-	 * 
-	 * @param data
-	 *            The request formatted into a byte array
-	 * @param handler
-	 *            A Response Handler to which a response is notified. The API
-	 *            spins till a response is received.
-	 * @throws IOException
-	 */
+
 	public void send(byte[] data, ResponseHandler handler) throws IOException {
 		byte[] rspData = "ERROR".getBytes(); // Send a string "ERROR" in case
 												// something went wrong.
@@ -126,12 +115,11 @@ public class ClientCore {
 												// accordingly.
 
 		try {
-			System.out.println("in read 1"+data);
-
+			
 			ByteBuffer sendStr = ByteBuffer.wrap(data);
-			System.out.println("in read 1"+sendStr);
+			
 			ByteBuffer rcv = ByteBuffer.allocateDirect(BUFFER_SIZE);
-			System.out.println("in read 2"+rcv);
+			
 
 			channel.write(sendStr).get();
 			// By adding .get(), this becomes a blocking call.

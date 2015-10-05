@@ -22,7 +22,7 @@ public class MessageDecoder {
 			throw new IllegalArgumentException(String.format(
 					"Message {%s} ends with %s. Expected %s.", request,
 					request.substring(request.length() - 3)));
-			String[] parts = request.split("-");
+			String[] parts = request.split(";");
 			
 			// to identify who the message is coming from,always add client_id
 			String temp = parts[0];
@@ -85,10 +85,10 @@ public class MessageDecoder {
 	}
 	
 	public static void main(String[] args) {
-		String[] samples = { "ADDQUEUE-42-abc-???",
-				"DELETEQUEUE-100-23-???", "SENDMSG-45-10-20-Hello world!-???",
-				"RETVLATESTMSG-12-43-???", "RETVSENDERMSG-90-101-123-???",
-				"QUEUESWITHMSG-55-???" };
+		String[] samples = { "ADDQUEUE;42;abc;???",
+				"DELETEQUEUE;100;23;???", "SENDMSG;45;10;20;Hello world!;???",
+				"RETVLATESTMSG;12;43;???", "RETVSENDERMSG;90;101;123;???",
+				"QUEUESWITHMSG;55;???" };
 
 		for (String smp : samples) {
 			System.out.println(decodeCommandToMap(smp));

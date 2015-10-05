@@ -8,33 +8,33 @@ public class ClientEncoder {
 
 	
 	static String end = "???";
-	// ADDQUEUE-clientid-queueName-???
+	// ADDQUEUE;clientid;queueName;???
 	static MessageFormat createQueueFormat = new MessageFormat(
-			"ADDQUEUE-{0,number,integer}-{1}-" + end);
-	// ADDCLIENT-client-???
+			"ADDQUEUE;{0,number,integer};{1};" + end);
+	// ADDCLIENT;client;???
 	static  MessageFormat createClientFormat = new MessageFormat(
-			"ADDCLIENT-{0,number,integer}-" + end);
-	// DELETEQUEUE-clientid-queueid-???
+			"ADDCLIENT;{0,number,integer};" + end);
+	// DELETEQUEUE;clientid;queueid;???
 	static MessageFormat deleteQueueFormat = new MessageFormat(
-			"DELETEQUEUE-{0,number,integer}-{1,number,integer}-" + end);
-	// SENDMSG-queueid-senderid-receiverid-payload-???
+			"DELETEQUEUE;{0,number,integer};{1,number,integer};" + end);
+	// SENDMSG;queueid;senderid;receiverid;payload;???
 	static MessageFormat sendMessageFormat = new MessageFormat(
-			"SENDMSG-{0,number,integer}-{1,number,integer}-{2,number,integer}-{3}-" + end);
-	// RETVLATESTMSG-queueid-receiverid-???
+			"SENDMSG;{0,number,integer};{1,number,integer};{2,number,integer};{3};" + end);
+	// RETVLATESTMSG;queueid;receiverid;???
 	static MessageFormat retrieveLatestMessageFormat = new MessageFormat(
-			"RETVLATESTMSG-{0,number,integer}-{1,number,integer}-" + end);
-	// RETVLATESTMSGDELETE-queueid-receiverid-???
+			"RETVLATESTMSG;{0,number,integer};{1,number,integer};" + end);
+	// RETVLATESTMSGDELETE;queueid;receiverid;???
 	static MessageFormat retrieveLatestMessageDeleteFormat = new MessageFormat(
-			"RETVLATESTMSGDELETE-{0,number,integer}-{1,number,integer}-" + end);
-	// RETVSENDERMSG-queueid-receiverid-senderid-???
+			"RETVLATESTMSGDELETE;{0,number,integer};{1,number,integer};" + end);
+	// RETVSENDERMSG;queueid;receiverid;senderid;???
 	static MessageFormat retrieveFromSenderMessageFormat = new MessageFormat(
-			"RETVSENDERMSG-{0,number,integer}-{1,number,integer}-{2,number,integer}-" + end);
-	// RETVSENDERMSGDELETE-queueid-receiverid-senderid-???
+			"RETVSENDERMSG;{0,number,integer};{1,number,integer};{2,number,integer};" + end);
+	// RETVSENDERMSGDELETE;queueid;receiverid;senderid;???
 	static MessageFormat retrieveFromSenderMessageDeleteFormat = new MessageFormat(
-			"RETVSENDERMSGDELETE-{0,number,integer}-{1,number,integer}-{2,number,integer}-" + end);
-	// QUEUESWITHMSG-clientid-???
+			"RETVSENDERMSGDELETE;{0,number,integer};{1,number,integer};{2,number,integer};" + end);
+	// QUEUESWITHMSG;clientid;???
 	static MessageFormat queuesWithMessagesFormat = new MessageFormat(
-			"QUEUESWITHMSG-{0,number,integer}-" + end);
+			"QUEUESWITHMSG;{0,number,integer};" + end);
 	
 
 	public static String eAddQueue(int clientID, String queueName) {
