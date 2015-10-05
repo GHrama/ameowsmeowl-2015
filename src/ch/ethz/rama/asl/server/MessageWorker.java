@@ -48,7 +48,7 @@ public class MessageWorker implements Runnable {
 		String response = String.format("ERROR", end); // all repsonse request end with ???
 		long beginDBResponseTime,dbWaitTime;
 		Connection connection = null;
-		Map< MapParameters, String> commandparameters = MessageDecoder.decodeCommandToMap(request) ;
+		Map< MapParameters, String> commandparameters = MessageDeserializer.decodeCommandToMap(request) ;
 		try{
 			switch(commandparameters.get(MapParameters.REQUEST_TYPE)){
 		

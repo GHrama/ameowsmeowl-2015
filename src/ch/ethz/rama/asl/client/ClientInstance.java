@@ -1,22 +1,28 @@
 package ch.ethz.rama.asl.client;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 // Client make an instance of this in a thread
 // 
 // TODO add exception for adding msg to non existing queues
 
-public class ClientInstance implements Runnable {
+public class ClientInstance {
 	public ClientInstance(int id){
 		// get info from property file
-		this.serverhost = "localhost";
-		this.serverport = 4444;
-		this.buffersize = 200;
-		this.clientid = id;
-		try {
+		String sp = "/Users/ramapriyasridharan/Documents/asl_v1/ClientServerNio/bin/client.properties";
+		Properties p = new Properties();
+		try{
+			p.load(new FileInputStream(sp));
+			this.serverhost = p.getProperty("Serverhost");
+			this.serverport = Integer.parseInt(p.getProperty("Serverport"));
+			this.buffersize = Integer.parseInt(p.getProperty("Clientmessagesize"));
+			this.clientid = id;
+		
 			this.clientapi = new ClientCore(this.serverhost,this.serverport, buffersize);
 			//once instantiated, register the client
 			//addClient(this.clientid);
@@ -28,14 +34,13 @@ public class ClientInstance implements Runnable {
 	}
 	public int clientid;
 	ClientCore clientapi;
-	Thread thread;
 	int buffersize;
 	String serverhost;
 	int serverport;
 	
 	public int addQueue(String name){
 		ResponseHandler handler = new ResponseHandler();
-		String msg = ClientEncoder.eAddQueue(clientid, name);
+		String msg = ClientSerializer.eAddQueue(clientid, name);
 		// msg = ADDQUEUE;42;abc;???
 		// response = ADDQUEUE;queueid;???
 		try {
@@ -54,7 +59,7 @@ public class ClientInstance implements Runnable {
 	
 	public int addClient(int clientid){
 		ResponseHandler handler = new ResponseHandler();
-		String msg = ClientEncoder.eAddClient(clientid);
+		String msg = ClientSerializer.eAddClient(clientid);
 		// msg = ADDCLIENT;client;???
 		// response = ADDCLIENT;clientid;???
 		try {
@@ -71,7 +76,7 @@ public class ClientInstance implements Runnable {
 	}
 	public int deleteQueue(int clientid, int queueid){
 		ResponseHandler handler = new ResponseHandler();
-		String msg = ClientEncoder.eDeleteQueue(clientid,queueid);
+		String msg = ClientSerializer.eDeleteQueue(clientid,queueid);
 		// msg =DELETEQUEUE;clientid;queueid;???
 		// response = DELETEQUEUE;success;???
 		try {
@@ -89,7 +94,7 @@ public class ClientInstance implements Runnable {
 	
 	public int sendMessage(int queueid,int senderid, int receiverid, String msg1){
 		ResponseHandler handler = new ResponseHandler();
-		String msg = ClientEncoder.eSendMessage(queueid,senderid,receiverid,msg1);
+		String msg = ClientSerializer.eSendMessage(queueid,senderid,receiverid,msg1);
 		// msg = SENDMSG;queueid;senderid;receiverid;payload;???
 		// response = SENDMSG;msgid;???
 		try {
@@ -107,7 +112,7 @@ public class ClientInstance implements Runnable {
 	
 	public String retreiveLatestMessage(int queueid, int receiverid){
 		ResponseHandler handler = new ResponseHandler();
-		String msg = ClientEncoder.eRetrieveLatestMessage(queueid, receiverid);
+		String msg = ClientSerializer.eRetrieveLatestMessage(queueid, receiverid);
 		// msg = ADDCLIENT;client;???
 		// response = RETVLATESTMESSAGE;message;???
 		try {
@@ -125,7 +130,7 @@ public class ClientInstance implements Runnable {
 	
 	public String retreiveLatestMessageDelete(int queueid, int receiverid){
 		ResponseHandler handler = new ResponseHandler();
-		String msg = ClientEncoder.eRetrieveLatestMessageDelete(queueid, receiverid);
+		String msg = ClientSerializer.eRetrieveLatestMessageDelete(queueid, receiverid);
 		// msg = RETVLATESTMSGDELETE;queueid;receiverid;???
 		// response = RETVLATESTMSGDELETE;message;???
 		try {
@@ -143,7 +148,7 @@ public class ClientInstance implements Runnable {
 	
 	public String retreiveMessageFromSender(int queueid, int receiverid,int senderid){
 		ResponseHandler handler = new ResponseHandler();
-		String msg = ClientEncoder.eRetrieveMessageFromSender(queueid, receiverid,senderid);
+		String msg = ClientSerializer.eRetrieveMessageFromSender(queueid, receiverid,senderid);
 		// msg = RETVSENDERMSG;queueid;receiverid;senderid;???
 		// response = RETVSENDERMESSAGE;msg;???
 		try {
@@ -161,7 +166,7 @@ public class ClientInstance implements Runnable {
 	
 	public String retreiveMessageFromSenderDelete(int queueid, int receiverid,int senderid){
 		ResponseHandler handler = new ResponseHandler();
-		String msg = ClientEncoder.eRetrieveMessageFromSenderDelete(queueid, receiverid,senderid);
+		String msg = ClientSerializer.eRetrieveMessageFromSenderDelete(queueid, receiverid,senderid);
 		// msg = RETVSENDERMSGDELETE;queueid;receiverid;senderid;???
 		// response = RETVSENDERDELETE;msg;???
 		try {
@@ -179,7 +184,7 @@ public class ClientInstance implements Runnable {
 	
 	public List<Integer> queuesWithMessage(int clientid){
 		ResponseHandler handler = new ResponseHandler();
-		String msg = ClientEncoder.eQueuesWithMessages(clientid);
+		String msg = ClientSerializer.eQueuesWithMessages(clientid);
 		// msg = QUEUESWITHMSG;clientid;???
 		// response = QUEUESWITHMSG;
 		try {
@@ -201,12 +206,7 @@ public class ClientInstance implements Runnable {
 		return q;
 	}
 
-	@Override
-	public void run() {
-		// TODO Auto-generated method stub
-		
-		
-	}
+	
 	
 	
 	}

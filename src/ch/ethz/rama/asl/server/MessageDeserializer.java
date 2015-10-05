@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 import ch.ethz.rama.asl.common.*;
 
-public class MessageDecoder {
+public class MessageDeserializer {
 	// aim is to breakdown each command sent by the client into
 	// request(eg CREATE_QUEUE)
 	// then parameter sent(like queue_name) and so on.
@@ -19,9 +19,7 @@ public class MessageDecoder {
 		
 		Map< MapParameters, String> commandparameters = new HashMap<MapParameters, String>();
 		if (!request.endsWith(end))
-			throw new IllegalArgumentException(String.format(
-					"Message {%s} ends with %s. Expected %s.", request,
-					request.substring(request.length() - 3)));
+			throw new IllegalArgumentException("does not end with ???");
 			String[] parts = request.split(";");
 			
 			// to identify who the message is coming from,always add client_id

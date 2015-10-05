@@ -1,5 +1,6 @@
 package ch.ethz.rama.asl.server;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -260,57 +261,32 @@ public class MessageServer implements Runnable {
 	}
 
 	public static void main(String[] args) throws IOException {
-//		try {
-//			String serverPropFilePath = "properties/middleware.properties";
-//			Properties prop = new Properties();
-//			prop.load(new FileInputStream(serverPropFilePath));
-//
-//			// Load Middleware specific properties
-//			String host = prop.getProperty("middleware_url");
-//			int port = Integer.parseInt(prop.getProperty("middleware_port"));
-//			int threadPoolSize = Integer.parseInt(prop
-//					.getProperty("middleware_message_handlers_pool_size"));
-//			int bufferSize = Integer.parseInt(prop
-//					.getProperty("buffer_size"));
-//
-//			// Load DB specific properties
-//			String dataSourceName = prop.getProperty("db_source_name");
-//			String dbServerName = prop.getProperty("db_url");
-//			String dbName = prop.getProperty("db_name");
-//			String dbUser = prop.getProperty("db_username");
-//			String dbPassword = prop.getProperty("db_password");
-//			int dbConnectionPoolSize = Integer.parseInt(prop
-//					.getProperty("db_connection_limit"));
-//
-//			logger.info(String.format("Starting server on %s:%d", host, port));
-//			logger.info(String.format("Middleware config: threadPoolSize=%d",
-//					threadPoolSize));
-//			logger.info(String.format(
-//					"DB config: host=%s,dbName=%s,dbMaxConn=%d", dbServerName,
-//					dbName, dbConnectionPoolSize));
-//
-//			// Start DB Connection Pool
+		
+			String sp = "/Users/ramapriyasridharan/Documents/asl_v1/ClientServerNio/bin/server.properties";
+			Properties p = new Properties();
+			p.load(new FileInputStream(sp));
+			String dsn = p.getProperty("DBdatasourcename");
+			String sn = p.getProperty("DBservername");
+			String dn = p.getProperty("DBdatabasename");
+			String u = p.getProperty("DBuser");
+			String pass = p.getProperty("DBpassword");
+			int nothreads = Integer.parseInt(p.getProperty("Serverthreadpool"));
+			int mc = Integer.parseInt(p.getProperty("DBmaxconnections"));
+			String host = p.getProperty("Serverhost");
+			int port = Integer.parseInt(p.getProperty("Serverport"));
+			int ms = Integer.parseInt(p.getProperty("Servermessagesize"));
+			
 			PGPoolingDataSource dbConnectionPool = new PGPoolingDataSource();
-			dbConnectionPool.setDataSourceName("dbsoßurce");
-			dbConnectionPool.setServerName("localhost");
-			dbConnectionPool.setDatabaseName("message");
-			dbConnectionPool.setUser("ramapriyasridharan");
-		    dbConnectionPool.setPassword("");
-		    dbConnectionPool.setMaxConnections(1);
-//
-//			// Start Messaging Server
-//			// Add N for workers and 1 more for the Selector thread
-//			ExecutorService servicePool = Executors
-//					.newFixedThreadPool(threadPoolSize + 1);
-//			servicePool.execute(new MessageServer(servicePool,
-//					dbConnectionPool, host, port, bufferSize));
-//
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
+			dbConnectionPool.setDataSourceName(dsn);
+			dbConnectionPool.setServerName(sn);
+			dbConnectionPool.setDatabaseName(dn);
+			dbConnectionPool.setUser(u);
+		    dbConnectionPool.setPassword(pass);
+		    dbConnectionPool.setMaxConnections(mc);
+
 		ExecutorService servicePool = Executors
-			.newFixedThreadPool(2);
-	    servicePool.execute(new MessageServer(servicePool,"localhost", 4444, 200,dbConnectionPool));
+			.newFixedThreadPool(nothreads);
+	    servicePool.execute(new MessageServer(servicePool,host, port, ms,dbConnectionPool));
 		
 	}
 
