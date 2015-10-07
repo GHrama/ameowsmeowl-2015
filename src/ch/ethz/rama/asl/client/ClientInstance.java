@@ -14,18 +14,18 @@ import java.util.Properties;
 public class ClientInstance {
 	public ClientInstance(int id){
 		// get info from property file
-		String sp = "/Users/ramapriyasridharan/Documents/asl_v1/ClientServerNio/bin/client.properties";
+		String sp = "/Users/ramapriyasridharan/Downloads/ClientServerNio/resources/clientresources/client.properties";
 		Properties p = new Properties();
 		try{
 			p.load(new FileInputStream(sp));
 			this.serverhost = p.getProperty("Serverhost");
 			this.serverport = Integer.parseInt(p.getProperty("Serverport"));
 			this.buffersize = Integer.parseInt(p.getProperty("Clientmessagesize"));
-			this.clientid = id;
+			//this.clientid = id;
 		
 			this.clientapi = new ClientCore(this.serverhost,this.serverport, buffersize);
 			//once instantiated, register the client
-			//addClient(this.clientid);
+			this.clientid = addClient(this.clientid);
 		} catch (IOException e) {
 			// TODO Auto;generated catch block
 			e.printStackTrace();

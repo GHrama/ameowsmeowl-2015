@@ -1,0 +1,120 @@
+<project name="ClientServerNio" default="run" basedir=".">
+
+  <!-- set global properties for this build -->
+  <property name="src.dir"    location="src"/>
+  <property name="build.dir"  location="bin"/>
+  <property name="lib.dir"    location="lib"/>
+  <property name="dist.dir"    location="dist"/>
+  <property name="client-main" value="ch.ethz.rama.asl.tests.DummyTest"/>
+  <property name="server-main" value="ch.ethz.rama.asl.server.MessageServer"/>
+  <property name="resources.server.dir" value="resources/serverresources"/>
+  <property name="resources.client.dir" value="resources/clientresources"/>
+   <property name="resources.dir" value="resources"/>
+   
+  <path id="classpath">
+    <fileset dir="${lib.dir}" includes="postgresql-9.4-1201.jdbc41.jar"/>
+    <fileset dir="${lib.dir}" includes="log4j-1.2.17.jar"/>
+  </path>
+  
+  <target name="init" description="initialize" >
+    <!-- Delete the ${build} directory and the jar file -->
+    <mkdir dir="${build.dir}"/>
+    <mkdir dir="${dist.dir}"/>
+  </target>
+  
+  <target name="clean" description="clean up" >
+    <!-- Delete the ${build} directory and the jar file -->
+    <delete dir="${build.dir}"/>
+    <delete dir="${dist.dir}"/>
+  </target>
+
+	<target name="compile_common_server" depends="init" description="compiles the common for server">
+    <!-- Compile the java code from ${src} into ${build} -->
+    <javac srcdir="${src.dir}/ch/ethz/rama/asl/common" destdir="${build.dir}/serverNIO" classpathref="classpath" includeantruntime="false" />
+  </target>
+  
+  <target name="compile_database_api" depends="init" description="compiles the database_api">
+    <!-- Compile the java code from ${src} into ${build} -->
+    <javac srcdir="${src.dir}/ch/ethz/rama/asl/database" destdir="${build.dir}/serverNIO" classpathref="classpath" includeantruntime="false" />
+  </target>
+  
+  <target name="compile_server" depends="init" description="compiles the server">
+    <!-- Compile the java code from ${src} into ${build} -->
+     <mkdir dir="${build.dir}/serverNIO" />
+    <antcall target="compile_common_server" />
+    <antcall target="compile_database_api" />
+    <javac srcdir="${src.dir}/ch/ethz/rama/asl/server" destdir="${build.dir}/serverNIO" classpathref="classpath" includeantruntime="false" />
+  </target>
+  
+  <target name="compile_client" depends="init" description="compiles the client">
+    <!-- Compile the java code from ${src} into ${build} -->
+    <mkdir dir="${build.dir}/clientNIO"/>
+    <antcall target="compile_common_client" />
+    <javac srcdir="${src.dir}/ch/ethz/rama/asl/client" destdir="${build.dir}/clientNIO" classpathref="classpath" includeantruntime="false" />
+    <antcall target="compile_tests_client" />
+	</target>
+  
+   <target name="compile_common_client" depends="init" description="compiles the common for client">
+   <!-- Compile the java code from ${src} into ${build} -->
+    <javac srcdir="${src.dir}/ch/ethz/rama/asl/common" destdir="${build.dir}/clientNIO" classpathref="classpath" includeantruntime="false" />
+  </target>
+  
+  <target name="compile_tests_client" depends="init" description="compiles the client main function test package">
+    <!-- Compile the java code from ${src} into ${build} -->
+    <javac srcdir="${src.dir}/ch/ethz/rama/asl/tests" destdir="${build.dir}/clientNIO" classpathref="classpath" includeantruntime="false" />
+  </target>
+  
+  <target name="jar_server" depends="compile_server" description="generate a jar executable for server" >
+    <!-- Put everything in into a executable jar file -->
+    <jar jarfile="${dist.dir}/server.jar" basedir="${build.dir}/serverNIO" filesetmanifest="mergewithoutmain">
+	  <manifest>
+	    <attribute name="Main-Class" value="${build.dir}/serverNIO/ch/ethz/rama/asl/server/MessageServer"/>
+		<attribute name="Class-Path" value="."/>
+	  </manifest>
+	  <fileset dir="${src.dir}"/>
+	  <fileset dir="${build.dir}/serverNIO"/>
+	  <fileset dir="${resources.server.dir}"/>
+	</jar>
+  </target>
+  
+ 
+
+<target name="jar_client" depends="compile_client" description="generate a jar executable for client" >
+    <!-- Put everything in into a executable jar file -->
+    <jar jarfile="${dist.dir}/client.jar" basedir="${build.dir}/clientNIO" filesetmanifest="mergewithoutmain">
+	  <manifest>
+	    <attribute name="Main-Class" value="${build.dir}/clientNIO/ch/ethz/rama/asl/tests/DummyTest"/>
+		<attribute name="Class-Path" value="."/>
+	  </manifest>
+	  <fileset dir="${src.dir}"/>
+	  <fileset dir="${build.dir}/clientNIO"/>
+	  <fileset dir="${resources.client.dir}" />
+	</jar>
+  </target>
+	
+ <target name="run_client" depends="jar_client" description="execute the jar file client" >
+    <java classname="ch.ethz.rama.asl.tests.DummyTest" fork="true">
+      <classpath>
+        <path refid="classpath"/>
+        <path location="${dist.dir}/client.jar"/>
+      </classpath>
+    </java>
+  </target>
+  
+  <target name="run_server" depends="jar_server" description="execute the jar file server" >
+    <java classname="ch.ethz.rama.asl.server.MessageServer" fork="true">
+      <classpath>
+        <path refid="classpath"/>
+        <path location="${dist.dir}/server.jar"/>
+      </classpath>
+    </java>
+  </target>
+
+  
+
+</project>
+	 
+  
+	
+
+	 

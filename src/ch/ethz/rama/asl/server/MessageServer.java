@@ -262,7 +262,7 @@ public class MessageServer implements Runnable {
 
 	public static void main(String[] args) throws IOException {
 		
-			String sp = "/Users/ramapriyasridharan/Documents/asl_v1/ClientServerNio/bin/server.properties";
+			String sp = "/Users/ramapriyasridharan/Downloads/ClientServerNio/resources/serverresources/server.properties";
 			Properties p = new Properties();
 			p.load(new FileInputStream(sp));
 			String dsn = p.getProperty("DBdatasourcename");

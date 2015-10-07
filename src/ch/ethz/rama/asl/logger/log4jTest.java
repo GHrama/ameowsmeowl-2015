@@ -12,13 +12,14 @@ import ch.ethz.rama.asl.client.ClientInstance;
 
 public class log4jTest {
 	
-	static Logger log = Logger.getLogger(ClientInstance.class);
+	static Logger log = Logger.getLogger(ch.ethz.rama.asl.client.ClientInstance.class);
 	
 	public static void main(String args[]) throws FileNotFoundException, IOException{
 		Properties props = new Properties();
 		props.load(new FileInputStream("/Users/ramapriyasridharan/Documents/asl_v1/ClientServerNio/bin/log4j.properties"));
 		PropertyConfigurator.configure(props);
 		log.debug("meow");
+		log.info("info meow");
 	}
 
 }
