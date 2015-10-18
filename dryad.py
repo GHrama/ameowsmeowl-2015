@@ -260,8 +260,8 @@ def main():
     # Need to first install postgres-9.4.0 on dryad
     # java already installed
 
-
-    '''setup_postgres(configFile.get("setup","username"),
+    '''
+    setup_postgres(configFile.get("setup","username"),
                    database_port,
                    configFile.get("database_hostnames","database"),
                    configFile.get("paths","db_schema_path"),
@@ -322,6 +322,11 @@ def main():
 
 
     # Clean start DB
+    #kill server process before db start
+    run_remote_cmd(username,
+                   mw_host,
+                   pem_key_path,
+                   "killall java")
     
     postgres_service_cmd(username,
                          db_host,
@@ -353,7 +358,7 @@ def main():
         #f.write("db_url=%s \n"%configFile.get("database_hostnames","database"))
         #f.write("buffer_size=%s \n"%configFile.get("client_cl_args","message_size"))
         for keys in configFile.options("middleware_props"):
-          f.write("%s =%s\n"%(keys,configFile.get("middleware_props",keys)))
+          f.write("%s=%s\n"%(keys,configFile.get("middleware_props",keys)))
 
 
     copy_file_to_host(configFile.get("setup","username"),
@@ -377,7 +382,7 @@ def main():
       #fc.write("buffer_size=%s \n"%configFile.get("client_cl_args","message_size"))
       #fc.write("middleware_url=%s \n" % mw_host)
       for keys in configFile.options("client_props"):
-                fc.write("%s =%s\n"%(keys,configFile.get("client_props",keys)))
+                fc.write("%s=%s\n"%(keys,configFile.get("client_props",keys)))
 
     # copy files to host
     copy_file_to_host(username,
