@@ -1,0 +1,211 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper, portrait, margin=1in]{geometry}
+
+
+
+\begin{document}
+
+\title{Advanced Systems Lab (Fall'15) -- First
+Milestone}
+
+\author{Name: \emph{Your name}\\Legi number: \emph{Your legi
+number}}
+
+\date{
+\vspace{4cm}
+\textbf{Grading} \\
+\begin{tabular}{|c|c|}
+\hline  \textbf{Section} & \textbf{Points} \\ 
+\hline  1.1 &  \\ 
+\hline  1.2 &  \\ 
+\hline  1.3 &  \\ 
+\hline  2.1 &  \\ 
+\hline  2.2 &  \\ 
+\hline  2.3 &  \\ 
+\hline  3.1 &  \\ 
+\hline  3.2 &  \\ 
+\hline  3.3 &  \\ 
+\hline  3.4 &  \\ 
+\hline  3.5 &  \\ 
+\hline  3.6 &  \\ 
+\hline \hline Total & \\
+\hline 
+\end{tabular} 
+}
+
+\maketitle
+
+\newpage
+
+\section*{Notes on writing the report}
+
+The report for first milestone not need to be extensive but it must be concise, complete, and correct. 
+Conciseness is important in terms of content and explanations, focusing on what has been done and explanations of the results. A long report is not necessarily a better report, especially if there are aspects of the design or the experiments that remain unexplained. Completeness implies that the report should give a comprehensive idea of what has been done by mentioning all key aspects of the design, experiments, and analysis. Aspects of the system, be it of its design or of its behavior, that remain unexplained detract from the credibility of the report. Correctness is expected in terms of the explanations being logical and correlate with the numbers in the experiments and the design.
+
+Remember that this is a report about the system you have designed and built, about the experiments you have performed, and about how you interpret the results of the experiments and map them to your design and implementation. There is no unique way to do the report but we provide you in this template with a structure that covers all important aspects of the project. Please do not contact us seeking confirmation and assurances about, e.g., whether the report is sufficient, your interpretation of the data, validation of concrete aspects of your design, or whether you have done enough experiments. Making those decisions is your job and part of what the course will evaluate.
+
+The report will be graded together with the code and data submitted. You might be called for a meeting in person to clarify aspects of the report or the system and to make a short presentation of the work done. By submitting the report, the code, and the data, you confirm that you have done the work on your own, the code has been developed by yourself, the data submitted comes from experiments your have done, you have written the report on your own, and you have not copied neither code nor text nor data from other sources.
+
+A passing grade for the milestone requires at the very minimum:
+\begin{itemize}
+\item A working system
+\item Consistent experimental results
+\item Measurements of the entire system
+\item Measurements of each component (database and middleware)
+\item In depth analysis of either database or middleware
+\item Solid and credible explanations of the design, results, experiments and behavior of the system
+\end{itemize}
+
+\section*{Formatting guidelines}
+While you can use any text processor of your choice for writing the report, please conform to the following formatting rules:
+\begin{itemize}
+\item  We expect you to submit \textbf{a single PDF that has the same section structure as this template} (if you use this file, you should remove this page with notes, and the short description provided by us at the beginning of sections).
+\item  The main text should be in \textbf{single-column format with 11pt font on A4 paper}. In case you don't start with one of the files provided by us, \textbf{for margins use 2.54 cm (1 inch) on all sides}.
+\end{itemize}
+
+
+\section{System Description}\label{sec:system-description}
+
+\subsection{Database}\label{sec:database}
+
+Length: 1-2 pages
+
+Start by explaining the schema of the database and the indexes used to
+speed up data access. Describe the interface to the database (queries
+and stored procedures).
+
+Make sure to explain the design in terms of what you wanted to achieve,
+what decisions you took and what is the expected behavior.
+
+Include baseline performance characteristics of the database (max
+throughput, response time, and scalability).
+
+\subsubsection{Schema and Indexes}\label{sec:schema-and-indexes}
+
+\subsubsection{Stored Procedures}\label{sec:stored-procedures}
+
+\subsubsection{Design decisions}\label{sec:design-decisions}
+
+\subsubsection{Performance characteristics}\label{sec:performance-characteristics}
+
+\subsection{Middleware}\label{sec:middleware}
+
+Length: 1-2 pages
+
+Explain the design from a high-level point of view, highlighting what
+you wanted to achieve, design decisions, expected behavior.
+
+Then go into more detail on how the middleware connects to the database
+and clients, and how queuing is implemented.
+
+Show what are the performance characteristics of the middleware
+(i.e.~throughput, latency, scalability).
+
+\subsubsection{Design overview}\label{sec:design-overview}
+
+\subsubsection{Interfacing with clients}\label{sec:interfacing-with-clients}
+
+\subsubsection{Queuing and Connection pool to database}\label{sec:queuing-and-connection-pool-to-database}
+
+\subsubsection{Performance characteristics}\label{sec:performance-characteristics-1}
+
+\subsection{Clients}\label{sec:clients}
+
+Length: 2-3 pages
+
+Explain the interface of the clients to your messaging system and their
+high level design, including the ways you have instrumented the code for
+debugging and benchmarking purposes.
+
+Provide a detailed description of the workloads used later in the report
+(operation mix, starting and ending state of the database, assumptions
+on workload behavior). Explain how the load was generated (include
+baselines on load generation speed) and how the clients were deployed.
+
+Which are the sanity checks in place for ensuring correct load
+generation and validity of responses?
+
+\subsubsection{Design and interface}\label{sec:design-and-interface}
+
+\subsubsection{Instrumentation}\label{sec:instrumentation}
+
+\subsubsection{Workloads and deployment}\label{sec:workloads-and-deployment}
+
+\subsubsection{Sanity checks}\label{sec:sanity-checks}
+
+\section{Experimental Setup}\label{sec:experimental-setup}
+
+Length: 1-2 pages
+
+Explain the overall design of the complete system and list the
+configurations (number of middlewares, number of clients, types of
+machines, communication patterns) corresponding to the main workloads.
+
+Describe the mechanisms for deploying the system for experiments and the
+way performance numbers are gathered and processed. Make the description
+so that someone unfamiliar with your system can replicate the steps, and
+reference the different script files you submit as code in the SVN
+repository.
+
+\subsection{System Configurations}\label{sec:system-configurations}
+
+\subsection{Configuration and Deployment mechanisms}\label{sec:configuration-and-deployment-mechanisms}
+
+\subsection{Logging and Benchmarking mechanisms}\label{sec:logging-and-benchmarking-mechanisms}
+
+\section{Evaluation}\label{sec:evaluation}
+
+Length: up to 10 pages
+
+In this section we expect to see the different experiments you ran to
+exercise the system, and with each experiment we expect a clear
+description of the system configuration used, the hypothesis on behavior
+and the explanation of the behavior observed (in terms of the different
+design decisions taken beforehand) -- \emph{missing either of these for
+an experiment might make you lose all points for that given experiment!}
+Keep in mind that for a good explanation of the results of an experiment
+you might have to use one or more methods of data analysis presented in
+the lecture and in the book.
+
+See below for a short description on what each part should contain.
+
+\subsection{System Stability}\label{sec:system-stability}
+
+To prove that your system functions correctly and that it is stable
+include the trace of a 30 minute run, plotting both response time and
+throughput. Use at least 30 clients (sending and receiving data), 2
+middlewares and a non-empty database.
+
+\subsection{System Throughput}\label{sec:system-throughput}
+
+Measure the maximum throughput of the system (describe the exact
+configuration and workload, and the reasoning behind choosing these
+particular ones) and show the average response time for this experiment.
+
+\subsection{System Scalability}\label{sec:system-scalability}
+
+Explain the different configurations used to explore the scalability of
+your system, and the outcomes of these experiments in terms of
+throughput and response times. The main goal of this subsection is to
+define the ranges in which your system operates best.
+
+\subsection{Response Time Variations}\label{sec:response-time-variations}
+
+Report and analyze how the response times change in the system with
+different message sizes, different number of clients and different
+number of middleware nodes.
+
+\subsection{$2^k$ Experiment}\label{sec:k-experiment}
+
+Conduct a 2\^{}k analysis of your system (aim at exploring non-obvious
+interactions of parameters). Use the methods learned in this lecture to
+conduct the detailed analysis.
+
+\subsection{Conclusion}\label{sec:conclusion}
+
+To conclude the report summarize the behavior of the system in terms of
+the design and the representative workloads. Finally, outline in a few
+points what would you do differently if you could design the system
+anew.
+
+\end{document}
